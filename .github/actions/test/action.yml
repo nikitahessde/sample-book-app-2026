@@ -8,6 +8,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/checkout@v6
+      with:
+        repository: 'mtararujs/RTU-sample-API-automation-2026'
+        clean: 'false'
     - run: echo "Testing Sample Book Application service has started on ${{ inputs.environment }} environment.."
       shell: bash
     - name: Install dependecies
