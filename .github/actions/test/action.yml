@@ -16,9 +16,11 @@ runs:
     - run: echo "Testing Sample Book Application service has started on ${{ inputs.environment }} environment.."
       shell: bash
     - name: Install dependecies
+      working-directory: ./e2e-api-tests
       run: npm install
       shell: bash
     - name: Running API tests
+      working-directory: ./e2e-api-tests
       run: npm run books BOOKS_${{ inputs.environment }}
       shell: bash
     - run: echo "Testing Sample Book Application service finished.."
