@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-install-deps:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v6
       - name: Print step name
@@ -15,42 +15,42 @@ jobs:
       - name: List all files
         run: ls
   deploy-dev:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-install-deps
     steps:
       - uses: actions/checkout@v6
       - name: Print step name
         run: echo "Deployment to DEV environment has started.."
   test-dev:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: deploy-dev
     steps:
       - uses: actions/checkout@v6
       - name: Print step name
         run: echo "Testing Sample Book Application service has started on DEV environment.."
   deploy-stg:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: test-dev
     steps:
       - uses: actions/checkout@v6
       - name: Print step name
         run: echo "Deployment to STG environment has started.."
   test-stg:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: deploy-stg
     steps:
       - uses: actions/checkout@v6
       - name: Print step name
         run: echo "Testing Sample Book Application service has started on STG environment.."
   deploy-prd:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: test-stg
     steps:
       - uses: actions/checkout@v6
       - name: Print step name
         run: echo "Deployment to PRD environment has started.."
   test-prd:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: deploy-prd 
     steps:
       - uses: actions/checkout@v6
