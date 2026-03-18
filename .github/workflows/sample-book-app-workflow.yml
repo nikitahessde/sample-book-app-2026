@@ -40,8 +40,15 @@ jobs:
     needs: test-dev
     steps:
       - uses: actions/checkout@v6
-      - name: Print step name
-        run: echo "Deployment to STG environment has started.."
+      - run: echo "Deployment to STG environment has started.."
+      - name: Install dependecies
+        run: npm install
+      - name: Cleanup of old running service
+        shell: bash
+        run: node_modules/.bin/pm2 delete books-STG || exit 0
+      - name: Rnning service
+        run: node_modules/.bin/pm2 start -n books-STG index.js -- 2020
+      - run: echo "Deployment to STG environment finished.."
   test-stg:
     runs-on: self-hosted
     needs: deploy-stg
@@ -54,8 +61,15 @@ jobs:
     needs: test-stg
     steps:
       - uses: actions/checkout@v6
-      - name: Print step name
-        run: echo "Deployment to PRD environment has started.."
+      - run: echo "Deployment to PRD environment has started.."
+      - name: Install dependecies
+        run: npm install
+      - name: Cleanup of old running service
+        shell: bash
+        run: node_modules/.bin/pm2 delete books-PRD || exit 0
+      - name: Rnning service
+        run: node_modules/.bin/pm2 start -n books-PRD index.js -- 3030
+      - run: echo "Deployment to PRD environment finished.."
   test-prd:
     runs-on: self-hosted
     needs: deploy-prd 
