@@ -19,8 +19,14 @@ jobs:
     needs: build-install-deps
     steps:
       - uses: actions/checkout@v6
-      - name: Print step name
-        run: echo "Deployment to DEV environment has started.."
+      - run: echo "Deployment to DEV environment has started.."
+      - name: Install dependecies
+        run: npm install
+      - name: Cleanup of old running service
+        run: node_modules/.bin/pm2 delete \"books-dev\" || exit 0"
+      - name: Rnning service
+        run: node_modules/.bin/pm2 delete \"books-dev\" || exit 0"
+      - run: echo "Deployment to DEV environment finished.."
   test-dev:
     runs-on: self-hosted
     needs: deploy-dev
