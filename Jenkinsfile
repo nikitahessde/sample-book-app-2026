@@ -10,7 +10,7 @@ pipeline {
                     changeset "README.md"
                 }
             }
-            steps {
+            steps { 
                 script{
                     build()
                 }
@@ -19,7 +19,7 @@ pipeline {
         stage('deploy-dev') {
             steps {
                 script{
-                    deploy("DEV", 1010)
+                    deploy("DEV", 3000)
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('deploy-stg') {
             steps {
                 script{
-                    deploy("STG", 2020)
+                    deploy("STG", 4000)
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
         stage('deploy-prd') {
             steps {
                 script{
-                    deploy("PRD", 3030)
+                    deploy("PRD", 5001)
                 }
             }
         }
