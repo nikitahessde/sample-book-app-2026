@@ -7,8 +7,20 @@ def withNode(Closure body) {
             export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
             [ -f "$HOME/.zprofile" ] && . "$HOME/.zprofile"
             [ -f "$HOME/.bash_profile" ] && . "$HOME/.bash_profile"
+            # Prefer npm from PATH before touching nvm: sourcing nvm.sh runs nvm_auto use,
+            # which exits non-zero when default alias is broken (N/A) and breaks set -e.
+            if command -v npm >/dev/null 2>&1; then
+                dirname "$(command -v npm)"
+                exit 0
+            fi
             if [ -s "$HOME/.nvm/nvm.sh" ]; then
-                . "$HOME/.nvm/nvm.sh"
+                . "$HOME/.nvm/nvm.sh" --no-use
+                if ! command -v npm >/dev/null 2>&1 && [ -d "$HOME/.nvm/versions/node" ]; then
+                    first="$(ls -1 "$HOME/.nvm/versions/node" 2>/dev/null | head -1)"
+                    if [ -n "$first" ]; then
+                        nvm use "$first" || true
+                    fi
+                fi
             fi
             if ! command -v npm >/dev/null 2>&1; then
                 echo "npm not found. Install Node (brew install node), or configure Jenkins NodeJS tool." >&2
